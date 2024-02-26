@@ -1,8 +1,27 @@
-import React from "react";
-import ProductCard from "../product/ProductCard";
-import { Link, NavLink } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { useCategory } from '../CategoryContext';
+import productsCategories from "../pages/productsCategories.json";
+
 
 function Navbar() {
+  const { selectedCategory, setSelectedCategory } = useCategory();
+
+  const handleCategoryClick = (category) => {
+    console.log("Tıklanan Kategori:", category);
+    setSelectedCategory(category);
+  };
+
+  useEffect(() => {
+    if (selectedCategory) {
+      const filtered = productsCategories.filter(
+        (item) => item.category === selectedCategory
+      );
+      console.log("Filtrelenmiş Ürünler:", filtered);
+    } else {
+      console.log("Hiçbir Kategori Seçilmedi. Tüm Ürünler Gösteriliyor");
+    }
+  }, [selectedCategory]);
   return (
     <>
         <nav
@@ -59,8 +78,8 @@ function Navbar() {
                         <li>
                           <NavLink
                             className="dropdown-item"
-                            to="/categoriesamic"
-                            href="#"
+                            to="/subcategories"
+                            onClick={() => handleCategoryClick("amigurimi")}
                           >
                             Amigurimi Tarifleri
                           </NavLink>
@@ -68,8 +87,8 @@ function Navbar() {
                         <li>
                           <NavLink
                             className="dropdown-item"
-                            to="/categorieshırka"
-                            href="#"
+                            to="/subcategories"
+                            onClick={() => handleCategoryClick("hırka")}
                           >
                             Hırka Tarifleri
                           </NavLink>
@@ -77,8 +96,8 @@ function Navbar() {
                         <li>
                           <NavLink
                             className="dropdown-item"
-                            to="/categorieskazak"
-                            href="#"
+                            to="/subcategories"
+                            onClick={() => handleCategoryClick("kazak")}
                           >
                             Kazak Tarifleri
                           </NavLink>
@@ -86,8 +105,8 @@ function Navbar() {
                         <li>
                           <NavLink
                             className="dropdown-item"
-                            to="/categoriesbat"
-                            href="#"
+                            to="/subcategories"
+                            onClick={() => handleCategoryClick("battaniye")}
                           >
                             Battaniye Tarifleri
                           </NavLink>
@@ -99,7 +118,6 @@ function Navbar() {
                           <NavLink
                             className="dropdown-item"
                             to="/categoriestarif"
-                            href="#"
                           >
                             Tarifleri Okumayı Öğren
                           </NavLink>
